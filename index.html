@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>eNotes</title>
+   
+<!-- <script src="http://192.168.29.94:3000/enotes.bundle.js"></script> -->
+<script src="https://ddastoor.github.io/enotes/dist/enotes.bundle.js"></script>
+<!-- <script src="https://raw.githubusercontent.com/ddastoor/enotes/refs/heads/main/dist/enotes.bundle.js"></script> -->
+
+
+    <style>
+        .div-container-login { height: 450px;width: 250px; }
+        .div-container-main { height: 450px;width: 250px;  }
+        .div-container-backup { height: 450px;width: 250px;  }
+
+        .div-container-setup { height: 700px;width: 250px;}
+        .div-container-text { height:200px; width: 250px; overflow: auto; white-space: nowrap; }
+        .select123 { width: 90%; overflow: auto; }
+        .hidden {
+            display: none;
+        }
+    </style>
+
+<style>
+    .enotes {
+        border: 1px solid black;
+        padding: 10px;
+        background-color :#F1FFFF
+    }
+</style>
+
+</head>
+
+<body>
+
+    <!-----  login div -------- -->
+    <div class="div-container-login enotes" id="login_div">
+        <a href="#" id="setup_link" >Setup</a>
+        <a href="#" id="backup_link" >Backup</a>
+        <h3>Login</h3>
+        <form id="login_form">
+
+            <label for="select_username_file">Load username.db file</label><br>
+            <input type="file" id="select_username_file" required><br><br>
+
+            <!-- <button id='load_userdb_but'>Load username.db file</button><br> -->
+            <label for="password">Password:</label><br>
+            <input type="password" id="userdb_password" name="userdb_password" required title="This password unlocks the username.db file"><br><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+
+    <!-- ----- setup div ------ -->
+    <div class="div-container-setup enotes hidden" id="setup_div">
+        <a href="#" id="login_link" >Login</a>
+        <a href="#" id="backup_link_setup" >Backup</a>
+        <h3>Setup</h3>
+        <form id="setup_form" method="post" enctype="multipart/form-data">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" required title="Creates username.db; used to login; back this file up somewhere safe"><br>
+        
+
+            <label for="password">Master Password:</label><br>
+            <input type="password" id="password" name="password" required title="This password unlocks username.db"><br>
+        
+            <label for="confirmPassword">Master Password Again:</label><br>
+            <input type="password" id="confirmPassword" name="confirmPassword" required><br>
+        
+            <!-- git username/token -->
+            <br>
+            <label for="git_username">Git Username:</label><br>
+            <input type="text" id="git_username" name="git_username" required><br>
+        
+            <label for="git_password">Git Password:</label><br>
+            <input type="password" id="git_password" name="git_password" required title="Git web login password"><br>
+        
+            <label for="git_confirm_password">Git Password Again:</label><br>
+            <input type="password" id="git_confirm_password" name="git_confirm_password" required><br>
+
+            
+            <label for="git_token">Git Token:</label><br>
+            <input type="password" id="git_token" name="git_token" required title="Git access token; create from developer -> settings in github"><br>
+        
+            <label for="git_confirm_token">Git Token Again:</label><br>
+            <input type="password" id="git_confirm_token" name="git_confirm_token" required><br>
+            
+            <label for="git_email">Git Email:</label><br>
+            <input type="text" id="git_email" name="git_email" required><br>
+        
+            <label for="git_repo">Git Repo:</label><br>
+            <input type="text" id="git_repo" name="git_repo" required title="Name of the git repo that will store your encrypted files."><br>
+        
+            <label for="git_branch">Git Branch:</label><br>
+            <input type="text" id="git_branch" name="git_branch" required value="main"><br><br>
+
+            <label for="gpg_email">Gpg Email:</label><br>
+            <input type="text" id="gpg_email" name="gpg_email" required><br>
+
+            <!-- <input type="text" id="gpg_private_key" name="gpg_private_key" hidden >
+            <input type="text" id="gpg_public_key" name="gpg_private_key" hidden > -->
+
+            
+            <button type="submit">Setup</button><br><br>
+
+            <label for="change_username_file">Load from username.db file</label><br>
+            <label for="change_userdb_password">Password:</label>
+            <input type="password" id="change_userdb_password" name="change_userdb_password" title="This password unlocks the username.db file"><br>
+            <input type="file" id="change_username_file"><br>
+           
+        </form>
+        </div>
+
+
+        <!-----  backup div -------- -->
+        <div class="div-container-backup enotes hidden" id="backup_div">
+            <a href="#" id="login_link_backup" >Login</a>
+            <a href="#" id="setup_link_backup" >Setup</a>
+
+            <h3>Backup</h3>
+
+            <form id="backup_form">
+                <label >Load username.db file to encrypt</label><br>
+                <input type="file" id="backup_username_file" ><br><br><br>
+                <label id="backup_password_lbl"></label><br>
+            </form>
+
+            <p>
+            <h3>Restore </h3>
+
+            <form id="restore_form">
+                <label>Load backep-up encrypted file to decrypt</label><br>
+                <label>Decrypted Filename prefix:</label><br>
+                <input type="text" id="restore_filename_prefix" name="restore_filename_prefix" required><br>
+                <label>Password to Decrypt:</label><br>
+                <input type="password" id="restore_password" name="restore_password" required title="Decrypt password"><br>
+                <input type="file" id="restore_filename" required><br>
+                <button type="submit">Decrypt</button><br><br>
+            </form>
+
+        </div>
+
+        
+    <!-- ------ main div -------- -->
+    <div class="div-container-main hidden enotes" id="main_div">
+        <a href="#" id="setup_link_main" >Setup</a>
+        <a href="#" id="login_link_main" >Login</a>
+        <a href="#" id="backup_link_main" >Backup</a>
+        <a href="#" id="logout_link_main" >Logout</a>
+        <h3>Operations</h3>
+        <form id="main_form">
+            
+            <label for="files_list">Files List:</label>
+            <button id="refresh_files_list_but">Refresh</button><br>
+            <select class="select123" name="files_list" id="files_list"></select><br><br>
+            
+                        
+            <label for="file_contents">File Contents:</label>
+            <button id="file_contents_get_but">Get</button>
+            <button id="file_contents_clear_but">Clear</button>
+            <button id="file_contents_save_but">Save</button><br>
+            <textarea class="div-container-text" name="file_contents" id="file_contents"></textarea><br>
+            <!-- <textarea name="file_contents" id="file_contents"></textarea><br> -->
+
+            <button name="new_file_but" id="new_file_but">New File</button>
+            <input name="new_file" id="new_file" type="text" placeholder="e.g. secret.txt">
+            <button name="del_file_but" id="del_file_but">Delete</button><br>
+            
+            <button name="pwd_gen_but" id="pwd_gen_but">Generate new Pwd. of len:</button>
+            <select id="pwd_len">
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16" selected>16</option> 
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+              </select>            
+        </form>
+    </div>
+
+<script>
+    var enotes_user=undefined
+    var enotes_userdb_enc_text = undefined
+    var enotes_files = undefined
+    var file_contents_sha = undefined
+    const ts_inc = 60 * 10 // sec
+    var ts = undefined
+    var is_change_settings = false
+    var gpg_private_key = ''
+    var gpg_public_key = ''
+    var restore_enc_file_text = ''
+
+    add_update_file = async (filename1, contents1, sha = undefined) => {
+        default_contents_bytes = str2bytes(contents1)
+        enc_txt = await encrypt(enotes_user.public_key, default_contents_bytes)
+        enc_base64 = btoa(enc_txt)
+        await add_upd_file(enotes_user.git_username, enotes_user.git_repo, enotes_user.git_token, enotes_user.git_branch, filename1, enc_base64, sha)
+    }
+
+
+    populate_file_list = async (add_blank_entry = true) => {
+        enotes_sorted_files = enotes_files.sort((a, b) => {
+        return a.toLowerCase().localeCompare(b.toLowerCase());
+        });
+        files_list = _get('files_list')
+        if (add_blank_entry)
+            enotes_sorted_files.unshift('')
+        await populate_select_list(enotes_sorted_files, files_list)
+    }
+
+    populate_file_list_with_fetch = async () => {
+        enotes_files = await get_file_list(enotes_user.git_username, enotes_user.git_repo, enotes_user.git_token, enotes_user.git_branch)
+        await populate_file_list()
+        _get('file_contents').value = ''
+        file_contents_sha = undefined
+        set_next_ts()
+    }
+
+
+    // setup
+    setup_data_ok = async () => {
+        json1 = {}
+        json1.username = _get('username').value
+        json1.password = _get('password').value
+        json1.git_username = _get('git_username').value
+        json1.git_password = _get('git_password').value
+        json1.git_token = _get('git_token').value
+        json1.git_email = _get('git_email').value
+        json1.git_repo = _get('git_repo').value
+        json1.git_branch = _get('git_branch').value
+        json1.gpg_email = _get('gpg_email').value
+
+        // res = await gen_keys (json1.username, json1.gpg_email, json1.password)
+        // json1.private_key = res.private_key
+        // json1.public_key = res.public_key
+
+        res = await gen_keys2 (json1.username, json1.gpg_email)
+        
+        // encrypt the private key
+        // json1.private_key = await sym_encrypt(str2bytes(res.private_key), json1.password)
+        if (is_change_settings) {
+            json1.private_key = gpg_private_key
+            json1.public_key = gpg_public_key
+        }
+        else {
+            json1.private_key = res.private_key
+            json1.public_key = res.public_key
+        }
+
+        encrypted_userdb_contents_txt = await sym_encrypt_json(json1, json1.password)
+        encrypted_userdb_contents_bytes = str2bytes(encrypted_userdb_contents_txt)
+        await save_file(encrypted_userdb_contents_bytes, `${json1.username}.db`)
+        await goto_login()
+    }
+
+    setup_form_submit = async (ev) => {
+        await validate_setup_form(setup_data_ok)
+    }
+    handle_form_submit_async_cb('setup_form', setup_form_submit)
+
+
+    // login
+    handle_userdb_text = (text1) => { enotes_userdb_enc_text = text1 }
+    
+    // select_username_file
+    open_file_picker_async_cb(_get('select_username_file'), handle_userdb_text)
+
+    
+    // login 
+    login_form_submit = async (ev) => {
+        password1 = _get('userdb_password').value
+
+        try {
+            enotes_user = await sym_decrypt_json(enotes_userdb_enc_text, password1)
+    
+            // decrypt the private key
+            // enotes_user.private_key = await sym_decrypt(enotes_user.private_key, enotes_user.password)
+            
+            enotes_userdb_enc_text = undefined
+            enotes_files = await get_file_list(enotes_user.git_username, enotes_user.git_repo, enotes_user.git_token, enotes_user.git_branch)
+            await populate_file_list()
+            show_div('main_div')
+            set_next_ts()
+            set_next_check_timeout()
+        } catch (error) {
+            alert('login error; maybe password incorrect?')
+            console.log(error)
+            _get('userdb_password').value = ''
+            _get('userdb_password').focus
+        }
+        
+    }
+    handle_form_submit_async_cb('login_form', login_form_submit)
+
+    // create new file 
+    new_file_create = async (ev) => {
+        set_next_ts()
+        filename = _get('new_file')
+        filename1 = filename.value.trim()
+        if (filename1 === '') {
+            alert('Provide a filename to create')
+            filename.value = ''
+            filename.focus()
+        }
+        else {
+            try {
+                file_contents1 = 
+                contents1 = file_contents.value !== '' ? file_contents.value : 'contents here'
+                await add_update_file(filename1, contents1)
+                clear_file_contents()
+                enotes_files.unshift(filename1)
+                await populate_file_list(false)
+                filename.value = ''
+            } catch (error) {
+                console.log(error)
+                alert('Error creating a new file; check console')
+            }
+
+        }
+    }
+
+    handle_click_async_cb('new_file_but', new_file_create)
+    handle_click_async_cb('refresh_files_list_but', populate_file_list_with_fetch)
+
+
+    // get file contents
+    get_file_contents = async (ev) => {
+        set_next_ts()
+        filename1 = _get('files_list').value
+        if (filename1 === '') {
+            alert('No files selected; create a file first.')
+        }
+        else {
+            resp = await get_file(enotes_user.git_username, enotes_user.git_repo, enotes_user.git_token, enotes_user.git_branch, filename1)
+            enc_base64 = resp.data.content
+            enc_txt = atob(enc_base64)
+            // contents_bytes = await decrypt(enotes_user.private_key, enotes_user.password, enc_txt)
+            contents_bytes = await decrypt2(enotes_user.private_key, enc_txt)
+            contents1 = bytes2str(contents_bytes)
+            _get('file_contents').value = contents1
+            file_contents_sha = sha256_1(contents1)
+        }
+    }
+    handle_click_async_cb('file_contents_get_but', get_file_contents)
+
+
+    // clear file contents
+    clear_file_contents = async (params) => {
+        _get('file_contents').value = ''
+        _get('files_list').value = ''
+        file_contents_sha = undefined
+        set_next_ts()
+    }
+    handle_click_async_cb('file_contents_clear_but', clear_file_contents)
+
+
+    // update/save file contents
+    save_file_contents = async (params) => {
+        set_next_ts()
+        files_list = _get('files_list')
+        if (files_list.value !== '' && file_contents_sha !== undefined) {
+            contents1 = _get('file_contents').value
+            file_contents_sha_new = sha256_1(contents1)
+            if (file_contents_sha_new !== file_contents_sha) {
+                filename1 = files_list.value
+                resp = await get_file(enotes_user.git_username, enotes_user.git_repo, enotes_user.git_token, enotes_user.git_branch, filename1)
+                await add_update_file(filename1, contents1, resp.data.sha)
+                alert('updated.')
+            }
+            else {
+                alert('File contents unchanged; nothing to save.')
+            }
+        }
+    }
+    handle_click_async_cb('file_contents_save_but', save_file_contents)
+
+    // files list changed
+    files_list_changed = async (params) => {
+        set_next_ts()
+        file_contents.value = ''
+        file_contents_sha = undefined
+    }
+    handle_change_async_cb('files_list', files_list_changed)
+
+    // delete file
+    delete_file = async (params) => {
+        set_next_ts()
+        files_list = _get('files_list')
+        if (files_list.value !== '') {
+            filename1 = files_list.value
+            if(confirm(`Delete ${filename1} ?`)) {
+                resp = await get_file(enotes_user.git_username, enotes_user.git_repo, enotes_user.git_token, enotes_user.git_branch, filename1)
+                await del_file(enotes_user.git_username, enotes_user.git_repo, enotes_user.git_token, enotes_user.git_branch, filename1, resp.data.sha)
+                enotes_files = enotes_files.filter(str => str !== filename1);
+                await populate_file_list(false)
+                clear_file_contents()
+            }
+        }
+    }
+    handle_click_async_cb('del_file_but', delete_file)
+
+
+    check_timeout = async () => {
+        if (ts === undefined) {
+            return
+        }
+
+        if (Date.now() > ts) {
+            await goto_login()
+        } else {
+            set_next_check_timeout()
+        }
+    }
+
+    set_next_check_timeout = () => {
+        setTimeout(check_timeout, ts_inc*1000);
+        // console.log(`will check again in ${ts_inc} secs`)
+    }
+
+
+    gen_pwd = (n) => {
+
+    const numbers = '0123456789';
+    const lowerCase = 'abcdefghijklmnopqrstuvwxyz';
+    const upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const specialChars = '!@#$*';
+
+    let password = '';
+    let hasNumber = false;
+    let hasLowerCase = false;
+    let hasUpperCase = false;
+    let hasSpecialChar = false;
+
+    for (let i = 0; i < n; i++) {
+        let charSet;
+        // Ensure at least one of each character type
+        if (!hasNumber) {
+        charSet = numbers;
+        hasNumber = true;
+        } else if (!hasLowerCase) {
+        charSet = lowerCase;
+        hasLowerCase = true;
+        } else if (!hasUpperCase) {
+        charSet = upperCase;
+        hasUpperCase = true;
+        } else if (!hasSpecialChar) {
+        charSet = specialChars;
+        hasSpecialChar = true;
+        } else {
+        charSet = [numbers, lowerCase, upperCase, specialChars][Math.floor(Math.random() * 4)];
+        }
+
+        const randomIndex = Math.floor(Math.random() * charSet.length);
+        password += charSet.charAt(randomIndex);
+    }
+
+    return password;
+    }
+
+    add_pwd_in_file_contents = () => {
+        file_contents = _get('file_contents')
+        pwd_len = _get('pwd_len')
+        pwd1 = gen_pwd(pwd_len.value)
+        file_contents.value = `${file_contents.value}\n${pwd1}`
+        pwd_len.value = 16
+        set_next_ts()
+    }
+    handle_click_async_cb('pwd_gen_but', add_pwd_in_file_contents)
+
+
+    reset_for_login = () => {
+        enotes_user=undefined
+        enotes_userdb_enc_text = undefined
+        enotes_files = undefined
+        file_contents_sha = undefined
+        is_change_settings = false
+
+        _get('username').value = ''
+        _get('password').value = ''
+        _get('confirmPassword').value = ''
+        _get('git_username').value = ''
+        _get('git_password').value = ''
+        _get('git_confirm_password').value = ''
+        _get('git_token').value = ''
+        _get('git_confirm_token').value = ''
+        _get('git_email').value = ''
+        _get('git_repo').value = ''
+        _get('git_branch').value = 'main'
+        _get('gpg_email').value
+        
+        gpg_private_key = ''
+        gpg_public_key = ''
+        
+
+        restore_enc_file_text = ''        
+        _get('backup_username_file').value = ''
+        _get('restore_filename_prefix').value = ''
+        _get('restore_password').value = ''
+        _get('restore_filename').value = ''
+        _get('backup_password_lbl').innerHTML = ''
+
+        
+        _get('userdb_password').value = ''
+        _get('change_userdb_password').value = ''        
+        _get('select_username_file').value = ''
+        _get('change_username_file').value = ''
+
+        _get('files_list').value = ''
+        _get('file_contents').value = ''
+        ts = undefined
+    }
+
+    set_next_ts = () => {
+        ts = Date.now() + ts_inc*1000
+        // console.log(`next ts set to => ${ts}`)
+    }
+
+    goto_login = async () => {
+        reset_for_login()
+        show_div('login_div')
+    }
+
+    goto_backup = async () => {
+        reset_for_login()
+        show_div('backup_div')
+    }
+
+    
+    goto_setup = async () => {
+        reset_for_login()
+        show_div('setup_div')
+    }
+
+    handle_click_async_cb('setup_link', goto_setup)
+    handle_click_async_cb('login_link', goto_login)
+    handle_click_async_cb('backup_link', goto_backup)
+
+    handle_click_async_cb('setup_link_main', goto_setup)
+    handle_click_async_cb('login_link_main', goto_login)
+    handle_click_async_cb('logout_link_main', goto_login)
+    handle_click_async_cb('backup_link_main', goto_backup)
+
+    handle_click_async_cb('login_link_backup', goto_login)
+    handle_click_async_cb('setup_link_backup', goto_setup)
+    
+    handle_click_async_cb('backup_link_setup', goto_backup)
+
+
+    userAgent = navigator.userAgent.toLowerCase(); 
+    isMobile = userAgent.indexOf('android') > -1 || 
+                 userAgent.indexOf('iphone') > -1 || 
+                 userAgent.indexOf('ipad') > -1 || 
+                 userAgent.includes('mobile');
+
+    if (isMobile) {
+        document.body.style.zoom = "300%";
+    }
+    else {
+        document.body.style.zoom = "100%";
+    }
+
+    
+    change_userdb_text = async (text1) => {
+        console.log('in change_userdb_text ...')
+
+        try {
+            password1 = _get('change_userdb_password').value
+            user1 = await sym_decrypt_json(text1, password1)
+
+            _get('username').value = user1.username
+            _get('password').value = user1.password
+            _get('confirmPassword').value = user1.password
+            _get('git_username').value = user1.git_username
+            _get('git_password').value = user1.git_password
+            _get('git_confirm_password').value = user1.git_password
+            _get('git_token').value = user1.git_token
+            _get('git_confirm_token').value = user1.git_token
+            _get('git_email').value = user1.git_email
+            _get('git_repo').value = user1.git_repo
+            _get('git_branch').value = user1.git_branch
+            _get('gpg_email').value = user1.gpg_email
+            
+            // _get('gpg_private_key').value = user1.private_key
+            // _get('gpg_public_key').value = user1.public_key
+            gpg_private_key = user1.private_key
+            gpg_public_key = user1.public_key
+            
+        } catch (error) {
+            console.log(error)
+        }
+        finally {
+            is_change_settings = true
+            _get('change_username_file').value = ''
+            _get('change_userdb_password').value = ''        
+            set_next_check_timeout()
+        }
+
+
+    }
+
+    open_file_picker_async_cb(_get('change_username_file'), change_userdb_text)
+
+    // backup file (encrypt loaded file username.db => username.db.enc )
+    backup_username_file_cb = async (filename, text1) => {
+        set_next_ts()
+        password1 = uuidv4()
+        enc_txt = await sym_encrypt (str2bytes(text1), password1)
+        await save_file(str2bytes(enc_txt), `${filename}__${ts1()}.enc`)
+        _get('backup_password_lbl').innerHTML = `Save this carefully:<br>${password1}`
+        // await goto_login()
+    }
+    open_file_picker_wz_filename_async_cb(_get('backup_username_file'), backup_username_file_cb)
+    
+    
+    // restore file (decrypt loaded file to provided_file_prefix.db)
+    restore_filename_cb = async (filename, text1) => {
+        set_next_ts()
+        restore_enc_file_text = text1
+    }    
+    open_file_picker_wz_filename_async_cb(_get('restore_filename'), restore_filename_cb)
+
+
+    restore_form_submit_cb = async (ev) => {
+        set_next_ts()
+        password1 = _get('restore_password').value
+        filename = _get('restore_filename_prefix').value
+        restore_file_bytes = await sym_decrypt(restore_enc_file_text, password1)
+        await save_file(restore_file_bytes, `${filename}.db`)
+    }
+    handle_form_submit_async_cb('restore_form', restore_form_submit_cb)
+
+
+    </script>
+</body>
+</html>
+
