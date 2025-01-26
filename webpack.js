@@ -443,41 +443,41 @@ return strftime("%Y%m%d_%H%M%S");
 
 // --------------- exports -------------------------------
 
-// window.uuidv4 = uuidv4
-// window.str2bytes = str2bytes
-// window.bytes2str = bytes2str
-// window.bytes2base64str = bytes2base64str
-// window.base64str2bytes = base64str2bytes
-// window.sym_encrypt = sym_encrypt
-// window.sym_decrypt = sym_decrypt
-// window.gen_keys = gen_keys
+window.uuidv4 = uuidv4
+window.str2bytes = str2bytes
+window.bytes2str = bytes2str
+window.bytes2base64str = bytes2base64str
+window.base64str2bytes = base64str2bytes
+window.sym_encrypt = sym_encrypt
+window.sym_decrypt = sym_decrypt
+window.gen_keys = gen_keys
 
-// window.sym_encrypt_json = sym_encrypt_json
-// window.sym_decrypt_json = sym_decrypt_json
-// window.encrypt = encrypt
-// window.decrypt = decrypt
-// window.save_file = save_file
-// window.open_file_picker = open_file_picker
-// window.open_file_picker_cb = open_file_picker_cb
+window.sym_encrypt_json = sym_encrypt_json
+window.sym_decrypt_json = sym_decrypt_json
+window.encrypt = encrypt
+window.decrypt = decrypt
+window.save_file = save_file
+window.open_file_picker = open_file_picker
+window.open_file_picker_cb = open_file_picker_cb
 
-// window.open_file_picker_async_cb = open_file_picker_async_cb
-// window.handle_form_submit_async_cb = handle_form_submit_async_cb
-// window.open_file_picker_wz_filename_async_cb = open_file_picker_wz_filename_async_cb
+window.open_file_picker_async_cb = open_file_picker_async_cb
+window.handle_form_submit_async_cb = handle_form_submit_async_cb
+window.open_file_picker_wz_filename_async_cb = open_file_picker_wz_filename_async_cb
 
-// window.handle_click_async_cb = handle_click_async_cb
-// window.handle_enter_async_cb = handle_enter_async_cb
-// window.validate_setup_form = validate_setup_form
-// window.form2json = form2json
-// window.populate_select_list = populate_select_list
+window.handle_click_async_cb = handle_click_async_cb
+window.handle_enter_async_cb = handle_enter_async_cb
+window.validate_setup_form = validate_setup_form
+window.form2json = form2json
+window.populate_select_list = populate_select_list
 
-// window.get_file = get_file
-// window.add_upd_file = add_upd_file
-// window.del_file = del_file
-// window.get_file_list = get_file_list
+window.get_file = get_file
+window.add_upd_file = add_upd_file
+window.del_file = del_file
+window.get_file_list = get_file_list
 
-// window._get = _get
-// window.show_div = show_div
-// window.wait1 = wait1
-// window.ts1 = ts1
-// window.sha256_1 = sha256_1
+window._get = _get
+window.show_div = show_div
+window.wait1 = wait1
+window.ts1 = ts1
+window.sha256_1 = sha256_1
 
