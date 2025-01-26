@@ -290,11 +290,11 @@
             
             enotes_userdb_enc_text = undefined
             try {
-                enotes_files = await get_file_list(enotes_user.git_username, enotes_user.git_repo, enotes_user.git_token, enotes_user.git_branch)
+            enotes_files = await get_file_list(enotes_user.git_username, enotes_user.git_repo, enotes_user.git_token, enotes_user.git_branch)
             } catch (error) {
                 if (error.status === 404){
-                    alert('empty repo?')
-                    enotes_files = []
+                    alert('empty repo? manually create and delete a file first.')
+                    return
                 }
                 else {
                     throw error; 
