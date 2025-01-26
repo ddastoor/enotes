@@ -289,7 +289,18 @@
             // enotes_user.private_key = await sym_decrypt(enotes_user.private_key, enotes_user.password)
             
             enotes_userdb_enc_text = undefined
-            enotes_files = await get_file_list(enotes_user.git_username, enotes_user.git_repo, enotes_user.git_token, enotes_user.git_branch)
+            try {
+                enotes_files = await get_file_list(enotes_user.git_username, enotes_user.git_repo, enotes_user.git_token, enotes_user.git_branch)
+            } catch (error) {
+                if (error.status === 404){
+                    alert('empty repo?')
+                    enotes_files = []
+                }
+                else {
+                    throw error; 
+                }
+            }
+
             await populate_file_list()
             show_div('main_div')
             set_next_ts()
