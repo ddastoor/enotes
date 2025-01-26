@@ -1,0 +1,28 @@
+{
+  "name": "enotes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "base64-js": "^1.5.1",
+    "express": "^4.21.2",
+    "js-sha256": "^0.11.0",
+    "nodemon": "^3.1.9",
+    "openpgp": "^6.0.1",
+    "path": "^0.12.7",
+    "utf-8": "^3.0.0",
+    "uuid": "^11.0.5",
+    "webpack": "^5.97.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^6.0.1"
+  }
+}
