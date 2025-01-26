@@ -323,7 +323,7 @@ open_file_picker_wz_filename_async_cb = (file_select_elem, async_cb) => {
 
 _get = (id1) => document.getElementById(id1)
 
-handle_form_submit_async_cb = (form_name, async_cb ) => { 
+handle_form_submit_async_cb = async (form_name, async_cb ) => { 
   const form1 = document.getElementById(form_name);
   form1.addEventListener('submit', async (event) => {
     event.preventDefault();
